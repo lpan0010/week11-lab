@@ -12,11 +12,11 @@ app.use("/", express.static(path.join(__dirname, "dist/vote")));
 
 io.on("connection", socket => {
   console.log("new connection made from client with ID="+socket.id);
-  io.sockets.emit("polls", poll);
+  io.emit("polls", poll);
 
   socket.on("newVote", data => {
     updatePoll(data)
-    io.sockets.emit("polls", poll);
+    io.emit("polls", poll);
   });
 });
 
@@ -29,7 +29,6 @@ function updatePoll(newVote){
     
     for (let i=0;i<options.length;i++){
         if (options[i].text === newVote){
-            console.log("hello")
             options[i].count += 1
         }
     }
